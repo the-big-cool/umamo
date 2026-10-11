@@ -1,0 +1,19 @@
+name: Build Android APK
+on: [workflow_dispatch] # Allows you to trigger it manually
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Build APK
+        run: ./gradlew :android:assembleDebug
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: umamo-android-apk
+          path: android/build/outputs/apk/debug/*.apk
